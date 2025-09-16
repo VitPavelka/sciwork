@@ -2,52 +2,8 @@
 Author: Vít Pavelka
 Date of last update: 2025/09/16
 
-Version 1.0
+Version 0.1.0
 [+] Initial version.
-
-RobustConfig Utility
-A robust drop-in replacement / refactor of the ConfigUtility class
-for reading and managing INI-based configuration with:
-
-- Multiple file loading and layered overrides (base -> env -> CLI -> in-memory)
-- Section inheritance via 'extends = base, other'
-- Type-safe value parsing (bool/int/float/None, lists, JSON-like)
-- Environment variable overrides (prefix 'CONF__SECTION__KEY')
-- Optional schema validation (required keys, type checks, custom validators)
-- Helpful error reporting with context and suggestions
-- Pretty dumping/printing and exporting to JSON/TOML-like dicts
-- Tiny CLI for common tasks (list sections, print section, validate, merge)
-
-Usage examples
---------------
-# 1) As a library ("happy path")
-from robust_config import RobustConfig, KeySpec
-
-# Optional: enable simple multi-delimiter splitting for plain strings
-rc = RobustConfig().load(["jobs.ini"]).apply_env_overrides().validate(
-	schema={
-		"main": {
-			"data_folderpath": KeySpec(str, required=True),
-			"general_keywords": KeySpec(list, required=True),
-			"general_antikeywords": KeySpec(list),
-			"header_rows": KeySpec((int, type(None))),
-			"sheet_names": KeySpec((list, type(None))),
-		}
-	}
-}
-main = rc.section("main")  # -> dict with parsed types
-
-# 2) From shell
-python robust_config.py --config jobs.ini --list-sections
-python robust_config.py --config jobs.ini --sections main --dump json
-python robust_config.py --config jobs.ini \
-	--override main.general_keywords="[\"_\", \"extra\"]" \
-	--override main.header_rows=None -- dump pretty
-
-Environment overrides (take precedence over files):
-	export CONF__MAIN__DATA_FOLDERPATH="/path/to/data"
-	export CONF__MAIN__HEADER_ROWS=0
-
 """
 from __future__ import annotations
 

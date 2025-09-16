@@ -1,15 +1,27 @@
 # venv
 .venv/
+.env/
+
 # python cache
 __pycache__/
+*.py[cod]
+*.pyo
 *.pyc
-# IDE
-.idea/
-.vscode/
-# logs
-logs/
-*.log
-# build artifacts
 dist/
 build/
 *.egg-info/
+
+# IDE
+.idea/
+.vscode/
+
+# logs
+logs/
+*.log
+
+# MkDocs (local build - CI generated)
+site/
+
+# OS
+.DS_Store
+Thumbs.db
