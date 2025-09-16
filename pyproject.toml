@@ -1,0 +1,20 @@
+[project]
+name = "robust-config"
+version = "0.1.0"
+description = "Robust INI configuration loader with layering, typing, env/CLI overrides, and JSON-schema validation."
+readme = "README.md"
+authors = [{ name="Vít Pavelka" }]
+requires-python = ">=3.9"
+dependencies = []
+
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["robust_config"]
+include-package-data = true
+
+[project.scripts]
+robust-config = "robust_config:main"
