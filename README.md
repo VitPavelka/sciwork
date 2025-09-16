@@ -1,8 +1,5 @@
-# robust-config
+# SciWork
 
-Robust INI configuration loader with layering, typing, env/CLI overrides, and JSON-schema (template) validation.
+A collection of small, focused libraries for scientific workflows.
 
-## Install (editable, local)
-```bash
-pip install -e .
-
+- **Robust Config**—robust INI loader with layering, typing, env/CLI overrides, and JSON-schema (template) validation.
