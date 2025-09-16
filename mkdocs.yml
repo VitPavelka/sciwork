@@ -1,0 +1,44 @@
+site_name: SciWork Docs
+site_description: Utilities and libraries for scientific workflows
+site_url: https://VitPavelka.github.io/sciwork/
+repo_url: https://github.com/VitPavelka/sciwork
+repo_name: sciwork
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+  palette:
+    - scheme: default
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            show_source: true
+            docstring_style: sphinx
+            merge_init_into_class: true
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.tabbed
+
+nav:
+  - Home: index.md
+  - Robust Config:
+      - Overview: robust-config/index.md
+      - Installation: robust-config/installation.md
+      - Usage: robust-config/usage.md
+      - CLI: robust-config/cli.md
+      - JSON Schema: robust-config/schema.md
+      - API Reference: robust-config/api.md
