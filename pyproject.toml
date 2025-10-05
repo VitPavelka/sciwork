@@ -1,27 +1,62 @@
 [project]
-name = "robust-config"
+name = "sciwork"
 version = "0.1.0"
-description = "Robust INI configuration loader with layering, typing, env/CLI overrides, and JSON-schema validation."
+description = "Scientific workflows toolkit (config loading/validation, logging, and more)"
 readme = "README.md"
-authors = [{ name="Vít Pavelka" }]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Vít Pavelka" }]
+keywords = ["science", "config", "ini", "json", "validation", "schema"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+
+# Runtime deps (core currently uses only stdlib)
 dependencies = []
+
+[project.optional-dependencies]
+# Developer tooling and tests
+dev = [
+  "pytest>=8.0",
+  "ruff>=0.5",
+]
+# Documentation
+docs = [
+  "mkdocs-material>=9.5",
+  "mkdocstrings[python]>=0.24",
+  "pymdown-extensions>=10.0",
+]
+# Optional console niceties
+console = ["colorama>=0.4.6"]
+# Optional FS helpers (planned/used by fs module)
+fs = [
+  "Send2Trash>=1.8.2",
+  "Pillow>=10.0",    # for EXIF when available
+]
+
+[project.urls]
+Homepage = "https://github.com/VitPavelka/sciwork"
+Documentation = "https://VitPavelka.github.io/sciwork/"
+Issues = "https://github.com/VitPavelka/sciwork/issues"
 
 [build-system]
 requires = ["setuptools>=65", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-package-dir = {"" = "src"}
-packages = ["robust_config"]
-include-package-data = true
+package-dir = { "" = "src" }
 
-[project.scripts]
-robust-config = "robust_config:main"
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["sciwork*"]
 
-[project.optional-dependencies]
-docs = [
-    "mkdocs-material>=9.5",
-    "mkdocstrings[python]>=0.24",
-    "pymdown-extensions>=10.0"
-]
+# If you later ship package data inside src/sciwork/..., configure here:
+# [tool.setuptools.package-data]
+# "sciwork" = ["configs/*.json"]
+
+# Ruff (optional)
+[tool.ruff]
+line-length = 100
+target-version = "py310"

@@ -18,6 +18,7 @@ build/
 # logs
 logs/
 *.log
+configs/
 
 # MkDocs (local build - CI generated)
 site/
@@ -25,3 +26,9 @@ site/
 # OS
 .DS_Store
 Thumbs.db
+
+# temporary
+src/sciwork/fs/
+src/sciwork/console/
+docs/console/
+docs/fs/
