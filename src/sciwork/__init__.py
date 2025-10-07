@@ -26,7 +26,10 @@ __all__ = [
 	# namespaces
 	"config",
 	"logutil",
-	"configure_logging"
+	"configure_logging",
+	"console",
+	"Printer",
+	"Console"
 ]
 
 
@@ -49,6 +52,11 @@ def __getattr__(name: str):
 		return import_module("sciwork.logutil")
 	if name == "configure_logging":
 		return import_module("sciwork.logutil").configure_logging
+	if name in {"Printer", "Console"}:
+		mod = import_module("sciwork.console")
+		return getattr(mod, name)
+	if name == "console":
+		return import_module("sciwork.console")
 
 	raise AttributeError(f"module 'sciwork' has no attribute {name!r}")
 
@@ -64,3 +72,4 @@ if TYPE_CHECKING:
 	)
 	from . import logutil  # noqa: F401
 	from .logutil import configure_logging
+	from .console import Printer, Console

@@ -43,3 +43,8 @@ nav:
       - Overview: config/index.md
       - Tutorial: config/robust-config.md
       - API Reference: config/api.md
+  - Console:
+      - Overview: console/index.md
+      - Printer: console/printer.md
+      - Console: console/console.md
+      - API Reference: console/api.md

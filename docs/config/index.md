@@ -8,7 +8,7 @@ The `sciwork.config` package provides a **robust configuration system**:
 - Validate against **JSON templates** (types, required keys, defaults, choices)
 - Clear, actionable error messages
 
-- Start with **Robust Config** for a quick start, or jump to the **API Reference**. 
+- Start with **Robust Config** for a quick start or jump to the **API Reference**. 
 
 ---
 

@@ -48,15 +48,19 @@ def bootstrap_json_file(
 	:param overwrite: Overwrite even if the file exists.
 	:return: Absolute path to the (existing or created) file.
 	"""
-	effective_payload: Dict[str, Any] = deepcopy(DEFAULT_PROJECT_SCHEMA) if payload is None else payload
-
 	dest = store.resolve_config_path(name, prefer=prefer, app=app)
-	dest.parent.mkdir(parents=True, exist_ok=True)
 
 	if dest.exists() and not overwrite:
 		LOG.info("Config already exists, keeping it: %s", dest)
 		return dest
 
-	store.write_json(dest, effective_payload, overwrite=True, backup_ext=".bak" if dest.exists() else None)
-	LOG.info("%s config %s at %s", "Overwrote" if dest.exists() else "Created", name, dest)
+	if payload is not None and not isinstance(payload, Mapping):
+		raise TypeError("payload must be a mapping (JSON object) when provided.")
+
+	effective_payload: Dict[str, Any] = deepcopy(DEFAULT_PROJECT_SCHEMA) if payload is None else payload
+	dest.parent.mkdir(parents=True, exist_ok=True)
+
+	existed = dest.exists()
+	store.write_json(dest, effective_payload, overwrite=True, backup_ext=".bak" if existed else None)
+	LOG.info("%s config %s at %s", "Overwrote" if existed else "Created", name, dest)
 	return dest

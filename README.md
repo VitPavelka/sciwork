@@ -1,87 +1,61 @@
 # SciWork
 
-SciWork is a small, modular toolkit for scientific workflows.  
-Right now the main focus is **Config** — robust loading and validating of INI/JSON configs (with schema templates & defaults). More modules (filesystem helpers, console utilities, data/math) will follow.
+SciWork is a small, modular toolkit for scientific workflows (Python ≥ 3.10).
 
 ## Features (current)
-- `sciwork.config.RobustConfig`
-  - load one or many **INI** files (with section inheritance)  
-  - overlay with **JSON** files
-  - validate against **JSON schema** (per-section or via reusable **template**)
-  - apply **defaults** from the schema before validation
-- `sciwork.logutil.configure_logging`
-  - one-liner to set up a shared app logger with console and optional file/rotation
+- Clean **config** handling (INI/JSON loading + validation via JSON schema templates)
+- Lightweight **console** helpers (pretty printer, rules/lines, dot animation)
+- Simple shared **logging** setup (console and optional file/rotation)
+
+More modules (filesystem helpers, data handling, plotting) will follow.
+
+**Full documentation:** https://vitpavelka.github.io/sciwork/
+
+---
 
 ## Install (local dev)
+
+### From GitHub (recommended for now)
+
+```bash
+pip install "git+https://github.com/vitpavelka/sciwork.git#egg=sciwork"
+```
+
+
+### Local editable install
+
 ```bash
 # from the repo root
 pip install -e .
+
+# optional extras
+pip install -e ".[docs]"  # docs toolchain
+pip install -e ".[dev]"   # tests/linters (nothing there yet, heh)
 ```
 
-Python ≥ 3.10 is required.
+---
 
-## Quickstart
+## Features (snapshot)
 
-```python
-from sciwork.config import RobustConfig
+- **Config** (`sciwork.config.RobustConfig`)
+  - load one or many **INI** files (with a simple section inheritance)
+  - overlay with **JSON** files
+  - validate against a **JSON schema** (per-section or via reusable **template**)
+  - collect and apply **defaults** from schema before validation
 
-# 1) load INI
-rc = RobustConfig().load_ini_config("example.ini")
+- **Console** (`sciwork.console.Console`)
+  - compact **pretty printer** for nested structures (optional ANSI colors)
+  - helpful **CLI output**: horizontal rules, dot-loading animation, duration formatting
 
-# 2) validate using a template from JSON
-rc.validate_with_schema_json(
-    "configs/config_project.json",
-    template="data_handler"         # name of the template object in JSON
-)
+- **Logging** (`sciwork.logutil.configure_logging`)
+  - one-liner to get a shared app logger with console and optional file/rotation
+  
+---
 
-# Optionally: overlay JSON values first
-rc.load_json_config("configs/extra.json").validate_with_schema_json(
-    "configs/config_project.json",
-    template="data_handler"
-)
+## Project status
+Early but stable enough for internal use. APIs may evolve (documented in the site's changelog once available).
 
-# Inspect
-print(rc)           # human-friendly summary
-data = rc.to_dict() # use in your code
-```
-
-Example of a **template** schema (`configs/config_project.json`):
-```json
-{
-  "data_handler": {
-    "data_folderpath": {"type": "str", "required": true},
-    "general_keywords": {"type": "str", "required": true},
-    "general_antikeywords": {"type": "str", "required": true},
-    "header_rows": {"type": ["int", "null"], "default": null},
-    "sheet_names": {"type": ["str", "null"], "default": null}
-  }
-}
-```
-
-## Logging (optional)
-```python
-from sciwork.logutil import configure_logging
-
-log = configure_logging(
-    name="sciwork",
-    console_level="INFO",
-    file_path="logs/sciwork.log",   # or None
-    rotate=True                     # RotatingFileHandler if file_path is set
-)
-log.info("hello from SciWork!")
-```
-
-## Docs
-```bash
-pip install -e ".[docs]"
-mkdocs serve
-```
-
-## Testing
-```bash
-pip install -e ".[dev]"
-pytest -q
-```
+---
 
 ## License
 MIT © 2025 Vít Pavelka
