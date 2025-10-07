@@ -2,7 +2,9 @@
 
 SciWork is a modular toolkit for scientific workflows. It currently features:
 
-— **Config** — robust INI/JSON config creation, loading and validation (templates and defaults).
+- **Config** — robust INI/JSON config creation, loading and validation (templates and defaults).
+- **Console** — lightweight console helpers (pretty printer, rules/lines, dot animation)
+- **Logging** — simple shared logging setup (console and optional file/rotation)
 
 ---
 
