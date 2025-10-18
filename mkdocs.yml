@@ -51,3 +51,5 @@ nav:
       - Prompt & Confirm: console/prompt.md
       - Console: console/console.md
       - API Reference: console/api.md
+  - PathOps:
+      - Overview: fs/index.md
