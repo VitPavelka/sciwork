@@ -46,6 +46,7 @@ pip install -e ".[dev]"   # tests/linters (nothing there yet, heh)
 - **Console** (`sciwork.console.Console`)
   - compact **pretty printer** for nested structures (optional ANSI colors)
   - helpful **CLI output**: horizontal rules, dot-loading animation, duration formatting
+  - interactive **prompts & confirmations** with defaults, validation, and optional ANSI color hints
 
 - **Logging** (`sciwork.logutil.configure_logging`)
   - one-liner to get a shared app logger with console and optional file/rotation

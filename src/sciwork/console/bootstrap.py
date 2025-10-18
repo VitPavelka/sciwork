@@ -1,3 +1,5 @@
+# src/sciwork/console/bootstrap.py
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -10,14 +12,17 @@ LOG = get_logger(__name__)
 
 # Minimal default palette; will be extended later
 DEFAULT_ANSI_THEME: Dict[str, Dict[str, str]] = {
-    "style": {"RESET": "\u001b[0m"},
-    "bfg": {
-        "GREEN": "\u001b[92m",
-        "CYAN": "\u001b[96m",
-        "BLUE": "\u001b[94m",
-        "RED": "\u001b[91m",
-        "WHITE": "\u001b[97m",
-    }
+	"style": {"RESET": "\u001b[0m"},
+	"bfg": {
+		"GREEN": "\u001b[92m",
+		"CYAN": "\u001b[96m",
+		"BLUE": "\u001b[94m",
+		"RED": "\u001b[91m",
+		"WHITE": "\u001b[97m",
+		"YELLOW": "\u001b[93m",
+		"MAGENTA": "\u001b[95m",
+		"BLACK": "\u001b[90m"
+	}
 }
 
 

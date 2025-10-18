@@ -1,3 +1,5 @@
+# src/sciwork/console/printer.py
+
 from __future__ import annotations
 
 import sys
@@ -56,7 +58,7 @@ class Printer:
 		"""Unambiguous representation of printer."""
 		return (f"{self.__class__.__name__}("
 		        f"use_color={self._use_color_flag}, "
-		        f"palette_keys={self.palette.keys()}")
+		        f"palette_keys={list(self.palette.keys())}")
 
 	def __str__(self) -> str:
 		"""Concise representation of printer."""
@@ -95,11 +97,10 @@ class Printer:
 
 	def _load_palette(self, palette_theme: dict[str, dict[str, Any]]) -> dict[str, str]:
 		"""
-        Build a working color palette for the 'printer' method from loaded ANSI config.
-        Falls back to no color or safe defaults when something is missing.
-        Expected keys in self.cols: 'style', 'fg', 'bfg', etc.
+        Build the in-memory color palette from the theme dict.
+        Falls back to safe defaults when keys are missing.
 
-        :param palette_theme: Dictionary with encoded ANSI colors for printing.
+        :param palette_theme: Theme dict (loaded from ``ansi_colors.json``).
         :return: Palette dictionary with object name as keys and color codes as values.
         """
 		style = palette_theme.get("style", {})
@@ -112,6 +113,9 @@ class Printer:
 		blue = bfg.get("BLUE", "\u001b[94m")
 		red = bfg.get("RED", "\u001b[91m")
 		white = bfg.get("WHITE", "\u001b[97m")
+		yellow = bfg.get("YELLOW", "\u001b[93m")
+		magenta = bfg.get("MAGENTA", "\u001b[95m")
+		black = bfg.get("BLACK", "\u001b[90m")
 
 		self.palette = {
 			"key": green,
@@ -122,7 +126,15 @@ class Printer:
 			"type": blue,
 			"reset": reset,
 			"rule": blue,
-			"dots": red
+			"dots": red,
+			"green": green,
+			"cyan": cyan,
+			"blue": blue,
+			"red": red,
+			"white": white,
+			"yellow": yellow,
+			"magenta": magenta,
+			"black": black,
 		}
 
 		return self.palette
@@ -346,7 +358,6 @@ class Printer:
 				)
 
 	# ----------------- public API -------------------
-
 	def printer(
 			self,
 			obj: Any,

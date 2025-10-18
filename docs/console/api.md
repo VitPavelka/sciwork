@@ -16,6 +16,22 @@ options:
   show_root_heading: true
   heading_level: 2
 
+### Prompter
+
+::: sciwork.console.prompt.Prompter
+options:
+  members: true
+  show_root_heading: true
+  heading_level: 2
+
+### Printer
+
+::: sciwork.console.printer.Printer
+options:
+  members: true
+  show_root_heading: true
+  heading_level: 2
+
 ### Base helpers
 
 ::: sciwork.console.base

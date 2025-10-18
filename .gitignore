@@ -26,7 +26,3 @@ site/
 # OS
 .DS_Store
 Thumbs.db
-
-# temporary
-src/sciwork/fs/
-docs/fs/

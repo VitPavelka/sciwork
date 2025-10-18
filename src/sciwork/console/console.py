@@ -1,13 +1,15 @@
+# src/sciwork/console/console.py
+
 from __future__ import annotations
 
 import sys
 from typing import Optional, TextIO
 
-from .printer import Printer
 from .base import format_interval, print_rule as _print_rule_plain, next_dots as _next_dots_plain
+from .prompter import Prompter
 
 
-class Console(Printer):
+class Console(Prompter):
 	"""
 	High-level console helper that extends :class:`Printer` with convenience methods
 	for timing, rules (horizontal lines), and a simple dot-loading animation.

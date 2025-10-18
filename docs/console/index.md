@@ -22,6 +22,15 @@ con = Console()
 con.printer(...)
 ```
 
+## Prompts & Console convenience
+`Console` already includes the mixin `Prompter` and is exported at top-level
+```python
+from sciwork import Console
+con = Console()
+val = con.prompt("Give me a value", choices=["a", "b", "c"], default="b")
+ok = con.confirm("Confirm", default=True)
+```
+
 ## Console wrapper
 ```python
 from sciwork import Console

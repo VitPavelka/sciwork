@@ -39,6 +39,8 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - Imports:
+      - Overview: imports/index.md
   - Config:
       - Overview: config/index.md
       - Tutorial: config/robust-config.md
@@ -46,5 +48,6 @@ nav:
   - Console:
       - Overview: console/index.md
       - Printer: console/printer.md
+      - Prompt & Confirm: console/prompt.md
       - Console: console/console.md
       - API Reference: console/api.md
