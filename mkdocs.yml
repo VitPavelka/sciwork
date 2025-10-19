@@ -70,3 +70,7 @@ nav:
           - Names: fs/pathops/names.md
       - Recipes: fs/recipes.md
       - API Reference: fs/api.md
+  - Stats:
+      - Overview: stats/index.md
+      - MathStat workflows: stats/mathstat.md
+      - API Reference: stats/api.md
