@@ -94,7 +94,8 @@ class Paths(PathOpsBase):
 		:return: Absolute resolved target path.
 		:raises FileNotFoundError: Old path does not exist.
 		:raises FileExistsError: Target exists and the ``overwrite=False``.
-		:raises PermissionError, OSError: On OS-level errors.
+		:raises PermissionError: On OS-level errors.
+		:raises OSError: On OS-level errors.
 		"""
 		try:
 			from .transfer import Transfer

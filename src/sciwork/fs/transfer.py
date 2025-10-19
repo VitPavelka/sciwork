@@ -188,7 +188,8 @@ class Transfer(PathOpsBase):
 		:raises FileNotFoundError: Source does not exist.
 		:raises FileExistsError: Target exists and the ``overwrite=False``.
 		:raises ValueError: Invalid *operation*.
-		:raises PermissionError, OSError: On OS-level errors.
+		:raises PermissionError: On OS-level errors.
+		:raises OSError: On OS-level errors.
 		"""
 		src, target = self.prepare_transfer(
 			source, destination,

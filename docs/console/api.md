@@ -18,7 +18,7 @@ options:
 
 ### Prompter
 
-::: sciwork.console.prompt.Prompter
+::: sciwork.console.prompter.Prompter
 options:
   members: true
   show_root_heading: true

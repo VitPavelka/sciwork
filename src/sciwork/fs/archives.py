@@ -172,7 +172,8 @@ class Archives(PathOpsBase):
 		:raises FileNotFoundError: Archive not found.
 		:raises FileExistsError: Destination exists and is not empty and ``overwrite=False``.
 		:raises ValueError: Unsupported type or password provided for unsupported format.
-		:raises PermissionError, OSError: On OS errors.
+		:raises PermissionError: On OS errors.
+		:raises OSError: On OS errors.
 		"""
 		src = self._abs(archive_path)
 		if not src.exists():
