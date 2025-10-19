@@ -53,3 +53,6 @@ nav:
       - API Reference: console/api.md
   - PathOps:
       - Overview: fs/index.md
+      - PathOps basics: fs/pathops.md
+      - Recipes: fs/recipes.md
+      - API Reference: fs/api.md
