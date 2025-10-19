@@ -1,12 +1,12 @@
 [project]
 name = "sciwork"
-version = "0.1.0"
-description = "Scientific workflows toolkit (config loading/validation, logging, and more)"
+version = "0.1.1"
+description = "Scientific workflows toolkit (config loading/validation, logging, path operations, and more)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "Vít Pavelka" }]
-keywords = ["science", "config", "ini", "json", "validation", "schema"]
+keywords = ["science", "config", "ini", "json", "validation", "schema", "paths"]
 classifiers = [
   "Programming Language :: Python :: 3",
   "License :: OSI Approved :: MIT License",

@@ -54,5 +54,19 @@ nav:
   - PathOps:
       - Overview: fs/index.md
       - PathOps basics: fs/pathops.md
+      - Modules:
+          - Overview: fs/pathops/index.md
+          - Paths: fs/pathops/paths.md
+          - Dirs: fs/pathops/dirs.md
+          - Create: fs/pathops/create.md
+          - Delete: fs/pathops/delete.md
+          - Transfer: fs/pathops/transfer.md
+          - GetContents: fs/pathops/getcontents.md
+          - Select: fs/pathops/select.md
+          - Open: fs/pathops/open.md
+          - TreeOps: fs/pathops/treeops.md
+          - Archives: fs/pathops/archives.md
+          - Load: fs/pathops/load.md
+          - Names: fs/pathops/names.md
       - Recipes: fs/recipes.md
       - API Reference: fs/api.md

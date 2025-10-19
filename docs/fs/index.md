@@ -29,19 +29,20 @@ single instance.
 
 ## Module map
 
-| Layer           | Responsibilities                                                               |
-|-----------------|--------------------------------------------------------------------------------|
-| ``Paths``       | Resolve/rename paths, prompt for user input, coerce file/folder paths.         |
-| ``Dirs``        | Validate directories, detect emptiness, wait for new files, temporary folders. |
-| ``Create``      | Touch files, create folders, ensure parents.                                   |
-| ``Delete``      | Remove paths or clear folders with optional trash + confirmation.              |
-| ``Transfer``    | Copy or move paths with overwrite and metadata controls.                       |
-| ``GetContents`` | List directory entries with filters and metadata collection.                   |
-| ``Select``      | Choose one or many entries interactively or programmatically.                  |
-| ``Open``        | Launch system file explorers/viewers.                                          |
-| ``TreeOps``     | Materialise directory trees from adjacency dictionaries.                       |
-| ``Archives``    | Extract or build ZIP/TAR/RAR archives safely.                                  |
-| ``Load``        | Dispatch data files (CSV, Excel, JSON, ...) to the right loader.               |
+| Layer                                     | Responsibilities                                                               | Methods                                                                                          |
+|-------------------------------------------|--------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| [``Paths``](pathops/paths.md)             | Resolve/rename paths, prompt for user input, coerce file/folder paths.         | ``coerce_file_path``, ``coerce_folder_path``, ``resolve_path``, ``rename_path``, ``prompt_path`` |
+| [``Dirs``](pathops/dirs.md)               | Validate directories, detect emptiness, wait for new files, temporary folders. | ``require_dir``, ``try_get_dir``, ``is_folder_empty``, ``wait_until_not_empty``, ``temp_dir``    |
+| [``Create``](pathops/create.md)           | Touch files, create folders, ensure parents.                                   | ``ensure_parent``, ``touch_file``, ``create_file``, ``make_folder``                              |
+| [``Delete``](pathops/delete.md)           | Remove paths or clear folders with optional trash + confirmation.              | ``delete``, ``trash``, ``clear_folder``                                                          |
+| [``Transfer``](pathops/transfer.md)       | Copy or move paths with overwrite and metadata controls.                       | ``transfer``                                                                                     |
+| [``GetContents``](pathops/getcontents.md) | List directory entries with filters and metadata collection.                   | ``get_files_and_folders``, ``get_contents``                                                      |
+| [``Select``](pathops/select.md)           | Choose one or many entries interactively or programmatically.                  | ``select_paths``                                                                                 |
+| [``Open``](pathops/open.md)               | Launch system file explorers/viewers.                                          | ``open_folder_and_wait``                                                                         |
+| [``TreeOps``](pathops/treeops.md)         | Materialise directory trees from adjacency dictionaries.                       | ``build_tree``                                                                                   |
+| [``Archives``](pathops/archives.md)       | Extract or build ZIP/TAR/RAR archives safely.                                  | ``extract_archive``, ``compress_to_archive``                                                     |
+| [``Load``](pathops/load.md)               | Dispatch data files (CSV, Excel, JSON, ...) to the right loader.               | ``any_data_loader``                                                                              |
+| [``fs.names``](pathops/names.md)          | Function creating timestamped filename.                                        | ``create_timestamped_name``                                                                      |
 
 ## Where to go next
 - **[PathOps basics](pathops.md)** — construct instances, work with ``base_dir``
