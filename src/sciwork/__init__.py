@@ -27,7 +27,6 @@ try:
 except _PNF:
     __version__ = "0.0.0+local"
 
-# Public surface (names we intentionally expose at top level)
 __all__ = [
     "__version__",
     # main facades
@@ -42,13 +41,8 @@ __all__ = [
 ]
 
 # --- lazy maps ---------------------------------------------------------------
-
-# console symbols we want to expose here
 _CONSOLE_EXPORTS = {"Console", "Prompter", "Printer"}
 
-# fs symbols we want to expose here (align with your actual class names/files)
-# If you have different actual class names (e.g., Deleter vs Delete, Openers vs Open),
-# either rename them consistently or adjust sciwork/fs/__init__.py mapping accordingly.
 _FS_EXPORTS = {
     "PathOps", "Paths", "Dirs", "Create", "Delete", "Transfer", "Open",
     "Archives", "Select", "GetContents", "Loaders", "TreeOps",
