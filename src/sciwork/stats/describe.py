@@ -41,11 +41,13 @@ def describe_df(df: pd.DataFrame, *, axis: int = 0) -> pd.DataFrame:
 
 	:param df: DataFrame to describe.
 	:param axis: The axis to describe (0=columns, 1=rows).
-	:return: min, max, sum, mean, median, std (ddof=1), coeff_var (std/mean).
+	:return: Single-row DataFrame with a MultiIndex ``(statistic, label)`` column axis
+			 containing min, max, sum, mean, median, std (ddof=1), and coeff_var (std/mean).
 	"""
 	if pd is None or not isinstance(df, pd.DataFrame):  # type: ignore[attr-defined]
 		raise ValueError("describe_df requires a pandas DataFrame as input")
-	agg = {
+
+	aggregations = {
 		"min": np.nanmin,
 		"max": np.nanmax,
 		"sum": np.nansum,
@@ -53,14 +55,39 @@ def describe_df(df: pd.DataFrame, *, axis: int = 0) -> pd.DataFrame:
 		"median": np.nanmedian,
 		"std": lambda a: np.nanstd(a, ddof=1),
 	}
-	out = {}
+	results: Dict[str, pd.Series] = {}
+
 	try:
-		for k, fn in agg.items():
-			out[k] = df.aggregate(fn, axis=axis)  # type: ignore[arg-type]
-		coeff = out["std"] / out["mean"]
-		out["coeff_var"] = coeff.replace([np.inf, -np.inf], np.nan)
-		return pd.concat(out, axis=1)  # type: ignore[return-value]
-	except Exception as exc:
+		for name, fn in aggregations.items():
+			results[name] = df.aggregate(fn, axis=axis)  # type: ignore[arg-type]
+
+		coeff = results["std"] / results["mean"]
+		results["coeff_var"] = coeff.replace([np.inf, -np.inf], np.nan)
+
+		labels = list(df.columns if axis == 0 else df.index)
+		column_label = "column" if axis == 0 else "row"
+		ordered_stats = [
+			"min",
+			"max",
+			"sum",
+			"mean",
+			"median",
+			"std",
+			"coeff_var",
+		]
+		data: Dict[tuple[str, object], float] = {}
+		for stat in ordered_stats:
+			stat_series = results[stat].reindex(labels)
+			for label, value in zip(stat_series.index, stat_series.astype(float)):
+				data[(stat, label)] = float(value)
+
+		table = pd.DataFrame([data], dtype=float)
+		table.columns = pd.MultiIndex.from_tuples(
+			table.columns, names=["statistic", column_label]
+		)
+		table.index = pd.Index([0], name="summary")
+		return table
+	except Exception as exc:  # pragma: no cover - defensive logging
 		LOG.exception("describe_df failed (axis=%s): %s", axis, exc)
 		raise
 

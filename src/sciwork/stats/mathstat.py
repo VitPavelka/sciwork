@@ -103,7 +103,12 @@ class MathStat:
 
 	# --- DataFrame-wide describe ---
 	def describe_table(self, *, axis: int = 0) -> pd.DataFrame:
-		"""Return ``describe``-style statistics for each column in a DataFrame."""
+		"""Return ``describe``-style statistics for each column in a DataFrame.
+
+		The resulting table mirrors :func:`sciwork.stats.describe_df` and uses a
+		MultiIndex column axis ``(statistic, column/row)`` to keep the original
+		labels alongside each metric.
+		"""
 		if not isinstance(self.data, pd.DataFrame):  # type: ignore[attr-defined]
 			raise ValueError(
 				f"describe_table requires a pandas DataFrame as `data`: {type(self.data)}"

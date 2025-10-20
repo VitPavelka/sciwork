@@ -15,6 +15,8 @@ _MAGIC_HINT = (
 np = numpy = lazy_module("numpy", install="pip install numpy", reason="numerical arrays")
 pd = pandas = lazy_module("pandas", install="pip install pandas", reason="data analysis and dataframes")
 sp = scipy = lazy_module("scipy", install="pip install scipy", reason="scientific computing")
+matplotlib = lazy_module("matplotlib", install="pip install matplotlib", reason="plotting")
+plt = pyplot = lazy_module("matplotlib.pyplot", install="pip install matplotlib", reason="plot rendering")
 PIL = lazy_module("PIL", install="pip install Pillow", reason="image processing")
 
 ZIPFILE = zipfile = lazy_module("zipfile", install="pip install zipfile", reason="ZIP archives")
@@ -36,6 +38,8 @@ __all__ = [
 	"LazyModule", "lazy_module",
 	# data
 	"np", "numpy", "pd", "pandas", "sp", "scipy",
+	# plotting
+	"matplotlib", "plt", "pyplot",
 	# image
 	"PIL",
 	# ZIP archives

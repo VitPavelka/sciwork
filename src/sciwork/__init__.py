@@ -34,12 +34,14 @@ __all__ = [
 	"Console", "Prompter", "Printer",
 	"RobustConfig", "configure_logging",
 	# namespaces
-	"imports", "config", "console", "logutil", "fs", "stats",
+	"imports", "config", "console", "logutil", "fs", "stats", "plot",
 	# optional fs convenience (lazy)
 	"Paths", "Dirs", "Create", "Delete", "Transfer", "Open",
 	"Archives", "Select", "GetContents", "Load", "TreeOps",
 	# stats convenience (lazy)
 	"MathStat", "normal_round", "moving_average",
+	# plotting convenience (lazy)
+	"Plot",
 ]
 
 # --- lazy maps ---------------------------------------------------------------
@@ -51,6 +53,7 @@ _FS_EXPORTS = {
 }
 
 _STATS_EXPORTS = {"MathStat", "normal_round", "moving_average"}
+_PLOT_EXPORTS = {"Plot"}
 
 
 def __getattr__(name: str):
@@ -81,6 +84,8 @@ def __getattr__(name: str):
 		return import_module("sciwork.fs")
 	if name == "stats":
 		return import_module("sciwork.stats")
+	if name == "plot":
+		return import_module("sciwork.plot")
 
 	# --- lazy re-exports from console/fs packages ---
 	if name in _CONSOLE_EXPORTS:
@@ -89,13 +94,15 @@ def __getattr__(name: str):
 		return getattr(import_module("sciwork.fs"), name)
 	if name in _STATS_EXPORTS:
 		return getattr(import_module("sciwork.stats"), name)
+	if name in _PLOT_EXPORTS:
+		return getattr(import_module("sciwork.plot"), name)
 
 	raise AttributeError(f"module 'sciwork' has no attribute {name!r}")
 
 
 # Help type-checkers without eager imports
 if TYPE_CHECKING:
-	from . import imports, console, logutil, fs  # noqa: F401
+	from . import imports, console, logutil, fs, plot  # noqa: F401
 	from .logutil import configure_logging  # noqa: F401
 	from .config import RobustConfig  # noqa: F401
 	from .console import Printer, Console, Prompter  # noqa: F401
@@ -104,3 +111,4 @@ if TYPE_CHECKING:
 		Archives, Select, GetContents, Load, TreeOps,  # noqa: F401
 	)
 	from .stats import MathStat, normal_round, moving_average  # noqa: F401
+	from .plot import Plot  # noqa: F401
