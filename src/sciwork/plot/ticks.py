@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Literal, Optional, Sequence
+from typing import TYPE_CHECKING, Literal, Optional, Sequence, cast
 
 from ..imports import matplotlib as mpl  # type: ignore
 from ..imports import numpy as np  # type: ignore
@@ -12,6 +12,7 @@ from .base import Axis, AxisSelector, TickType, BasePlot
 
 if TYPE_CHECKING:  # pragma: no cover - import for static typing only
 	from matplotlib.axes import Axes
+	from mpl_toolkits.mplot3d import Axes3D
 
 
 class Ticks(BasePlot):
@@ -142,7 +143,7 @@ class Ticks(BasePlot):
 		if log_y:
 			axes.set_yscale("log")
 		if log_z and hasattr(axes, "set_zscale"):
-			axes.set_zscale("log")
+			cast("Axes3D", axes).set_zscale("log")
 		return axes
 
 	def reverse_axis(
@@ -163,7 +164,9 @@ class Ticks(BasePlot):
 			current = axes.get_ylim()
 			axes.set_ylim(bottom=current[1], top=current[0])
 		if reverse_z and hasattr(axes, "set_zlim"):
-			axes.set_zlim(axes.get_zlim()[::-1])
+			axes3d = cast("Axes3D", axes)
+			current = axes3d.get_zlim()
+			axes3d.set_zlim(bottom=current[1], top=current[0])
 		return axes
 
 	def scale_axis_labels(

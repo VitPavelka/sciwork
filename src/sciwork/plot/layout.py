@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Literal, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Literal, Optional, Tuple, Union, cast
 
 from ..imports import matplotlib as mpl  # type: ignore
 
@@ -11,10 +11,18 @@ from .base import Axis, AxisSelector, BasePlot
 
 if TYPE_CHECKING:  # pragma: no cover - import for static analysis
 	from matplotlib.axes import Axes
+	from mpl_toolkits.mplot3d import Axes3D
 
 
 class Layout(BasePlot):
 	"""Methods adjusting axis labels, limits, and spine positions."""
+
+	@staticmethod
+	def _set_spine_position(axes: "Axes", spine: str, position: float) -> None:
+		"""Position a spine against a data coordinate without type warnings."""
+		spine_obj = axes.spines[spine]
+		set_position = getattr(spine_obj, "set_position")
+		set_position(("data", position))
 
 	def set_plot_labels(
 			self,
@@ -45,9 +53,10 @@ class Layout(BasePlot):
 			transform = mpl.transforms.Scaledtranslation(xt, yshift, self.fig.dpi_scale_trans)
 			axes.yaxis.get_label().set_transform(axes.yaxis.get_label().get_transform() + transform)
 		if zlabel and hasattr(axes, "zaxis"):
-			axes.set_zlabel(zlabel)
+			axes3d = cast("Axes3D", axes)
+			axes3d.set_zlabel(zlabel)
 			transform = mpl.transforms.Scaledtranslation(0, zshift, self.fig.dpi_scale_trans)
-			axes.zaxis.get_label().set_transform(axes.zaxis.get_label().get_transform() + transform)
+			axes3d.zaxis.get_label().set_transform(axes3d.zaxis.get_label().get_transform() + transform)
 
 		self.fig.canvas.draw_idle()
 		return axes
@@ -65,7 +74,7 @@ class Layout(BasePlot):
 		axes.xaxis.label.set_color(element_color)
 		axes.yaxis.label.set_color(element_color)
 		if hasattr(axes, "zaxis"):
-			axes.zaxis.label.set_color(element_color)
+			cast("Axes3D", axes).zaxis.label.set_color(element_color)
 		axes.title.set_color(element_color)
 		return axes
 
@@ -115,9 +124,10 @@ class Layout(BasePlot):
 			top=resolve("y", ymax, "max", axes.get_ylim())
 		)
 		if hasattr(axes, "set_zlim"):
-			axes.set_zlim(
-				bottom=resolve("z", zmin, "min", axes.get_zlim()),
-				top=resolve("z", zmax, "max", axes.get_zlim())
+			axes3d = cast("Axes3D", axes)
+			axes3d.set_zlim(
+				bottom=resolve("z", zmin, "min", axes3d.get_zlim()),
+				top=resolve("z", zmax, "max", axes3d.get_zlim())
 			)
 		return axes
 
@@ -125,7 +135,7 @@ class Layout(BasePlot):
 		"""Resize title text."""
 
 		axes = self._axes_or_default(ax)
-		axes.title.set_size(size)
+		axes.title.set_fontsize(size)
 		return axes
 
 	def set_axis_label_size(
@@ -154,11 +164,11 @@ class Layout(BasePlot):
 
 		axes = self._axes_or_default(ax)
 		if axis == "x":
-			axes.spines['bottom'].set_position(('data', position))
+			self._set_spine_position(axes, "bottom", position)
 			axes.spines['top'].set_visible(False)
 			axes.spines['right'].set_visible(False)
 		elif axis == "y":
-			axes.spines['left'].set_position(('data', position))
+			self._set_spine_position(axes, "left", position)
 			axes.spines['right'].set_visible(False)
 			axes.spines['top'].set_visible(False)
 		else:
