@@ -74,3 +74,8 @@ nav:
       - Overview: stats/index.md
       - MathStat workflows: stats/mathstat.md
       - API Reference: stats/api.md
+  - Plot:
+      - Overview: plot/index.md
+      - Plot module guide: plot/modules.md
+      - Plot workflows: plot/plot.md
+      - API Reference: plot/api.md
