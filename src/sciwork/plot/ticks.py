@@ -25,6 +25,16 @@ class Ticks(BasePlot):
 			axis: AxisSelector = "both",
 			ax: Optional["Axes"] = None
 	) -> "Axes":
+		"""
+		Adjust tick line width on selected axes.
+
+		:param linewidth: Width applied to the ticks.
+		:param axis: Selector describing which axes to update ("x", "y", "z",
+			"both", or "all").
+		:param ax: Axes to modify;
+			defaults to the instance axes.
+		:return: The axes with updated tick widths.
+		"""
 
 		axes = self._axes_or_default(ax)
 		for target in self._iter_axes(axis):
@@ -39,7 +49,16 @@ class Ticks(BasePlot):
 			axis: AxisSelector = "both",
 			ax: Optional["Axes"] = None
 	) -> "Axes":
-		"""Update tick lengths for major/minor ticks on the selected axes."""
+		"""
+		Update tick lengths for major and/or minor ticks.
+
+		:param length: Length in points assigned to the selected tick types.
+		:param tick_type: Choose ``"major"``, ``"minor"``, or ``"both"`` ticks to update.
+		:param axis: Selector describing the axes that should change.
+		:param ax: Axes to modify;
+			defaults to the instance axes.
+		:return: The axes after tick length updates.
+		"""
 
 		axes = self._axes_or_default(ax)
 		which = ["major", "minor"] if tick_type == "both" else [tick_type]
@@ -49,7 +68,14 @@ class Ticks(BasePlot):
 		return axes
 
 	def set_tick_invisible(self, *, axis: AxisSelector = "both", ax: Optional["Axes"] = None) -> "Axes":
-		"""Hide ticks and tick labels on the requested axes."""
+		"""
+		Hide ticks and tick labels on the requested axes.
+
+		:param axis: Selector describing which axes to hide.
+		:param ax: Axes to modify;
+			defaults to the instance axes.
+		:return: The axes with disabled ticks.
+		"""
 
 		axes = self._axes_or_default(ax)
 		for target in self._iter_axes(axis):
@@ -70,7 +96,15 @@ class Ticks(BasePlot):
 			axis: AxisSelector = "both",
 			ax: Optional["Axes"] = None
 	) -> "Axes":
-		"""Configure additional minor ticks for linear or logarithmic axes."""
+		"""
+		Configure additional minor ticks for linear or logarithmic axes.
+
+		:param num_minor_ticks: Number of subdivisions between major ticks (``>=1``).
+		:param axis: Selector that describes which axes to adjust.
+		:param ax: Axes to modify; defaults to the instance axes.
+		:return: The axes with new minor locators.
+		:raises ValueError: If ``num_minor_ticks`` is less than ``1``.
+		"""
 
 		if num_minor_ticks < 1:
 			raise ValueError(f"num_minor_ticks must be >= 1; got {num_minor_ticks}.")
@@ -93,7 +127,14 @@ class Ticks(BasePlot):
 			axis: Axis = "x",
 			ax: Optional["Axes"] = None
 	) -> "Axes":
-		"""Apply explicit tick positions for the given axis."""
+		"""
+		Apply explicit tick positions for the given axis.
+
+		:param tick_values: Iterable of numeric positions for ticks.
+		:param axis: Axis that receives the ticks (``"x"``, ``"y"``, or ``"z"``).
+		:param ax: Axes to modify; defaults to the instance axes.
+		:return: The axes with the custom tick positions.
+		"""
 
 		axes = self._axes_or_default(ax)
 		getattr(axes, f"set_{axis}ticks")(tick_values)
@@ -112,7 +153,15 @@ class Ticks(BasePlot):
 			axis: Axis = "x",
 			ax: Optional["Axes"] = None
 	) -> "Axes":
-		"""Assign textual labels to currently visible ticks."""
+		"""
+		Assign textual labels to currently visible ticks.
+
+		:param tick_labels: Strings representing the replacement tick labels.
+		:param axis: Axis whose ticks should change.
+		:param ax: Axes to modify; defaults to the instance axes.
+		:return: The axes with updated labels.
+		:raises ValueError: If the number of labels does not match the visible tick count.
+		"""
 
 		axes = self._axes_or_default(ax)
 		ticks = getattr(axes, f"get_{axis}ticks")()
@@ -135,7 +184,15 @@ class Ticks(BasePlot):
 			log_z: bool = False,
 			ax: Optional["Axes"] = None
 	) -> "Axes":
-		"""Switch axes to a logarithmic scale if requested."""
+		"""
+		Switch axes to a logarithmic scale if requested.
+
+		:param log_x: If ``True``, X axis is set to logarithmic.
+		:param log_y: If ``True``, Y axis is set to logarithmic.
+		:param log_z: If ``True``, Z axis is set to logarithmic.
+		:param ax: Axes to modify; defaults to the instance axes.
+		:return: The axes with updated scale configuration.
+		"""
 
 		axes = self._axes_or_default(ax)
 		if log_x:
@@ -154,7 +211,15 @@ class Ticks(BasePlot):
 			reverse_z: bool = False,
 			ax: Optional["Axes"] = None
 	) -> "Axes":
-		"""Invert axis directions."""
+		"""
+		Invert axis directions.
+
+		:param reverse_x: Flag to reverse the X axis.
+		:param reverse_y: Flag to reverse the Y axis.
+		:param reverse_z: Flag to reverse the Z axis.
+		:param ax: Axes to modify; defaults to the instance axes.
+		:return: The axes with updated orientation.
+		"""
 
 		axes = self._axes_or_default(ax)
 		if reverse_x:
@@ -178,7 +243,21 @@ class Ticks(BasePlot):
 			is_log_scale: bool = False,
 			ax: Optional["Axes"] = None
 	) -> "Axes":
-		"""Scale tick labels either by multiplication or orders of magnitude."""
+		"""
+		Scale tick labels either by multiplication or orders of magnitude.
+
+		:param scale_factor: Scaling factor.
+			For ``method="order"``, it represents the exponent.
+		:param method: Choose ``"simple"`` for direct multiplication or ``"order"`` to
+			shift orders of magnitude.
+		:param axis: Axis whose labels should be modified.
+		:param is_log_scale: Set to ``True`` when the axis uses logarithmic scaling to produce
+			exponent-formatted labels.
+		:param ax: Axes to modify; defaults to the instance axes.
+		:return: The axes with scaled labels.
+		:raises ValueError: If ``method`` is invalid or the multiplier is not positive for
+			logarithmic axes.
+		"""
 
 		axes = self._axes_or_default(ax)
 		if scale_factor is None:
@@ -212,7 +291,14 @@ class Ticks(BasePlot):
 			axis: AxisSelector = "both",
 			ax: Optional["Axes"] = None
 	) -> "Axes":
-		"""Resize tick label fonts, including offset text."""
+		"""
+		Resize tick label fonts, including offset text.
+
+		:param size: Target font size in points.
+		:param axis: Selector that describes which axes to update.
+		:param ax: Axes to modify; defaults to the instance axes.
+		:return: The axes with resized tick labels.
+		"""
 
 		axes = self._axes_or_default(ax)
 		for target in self._iter_axes(axis):

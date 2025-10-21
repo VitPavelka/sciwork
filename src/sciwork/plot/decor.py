@@ -27,7 +27,19 @@ class Decor(BasePlot):
 			axis: str = "both",
 			ax: Optional["Axes"] = None,
 	) -> "Axes":
-		"""Enable Matplotlib grid lines."""
+		"""
+		Enable grid lines with custom styling.
+
+		:param color: Grid line color.
+		:param alpha: Opacity applied to the grid lines.
+		:param which: Whether to align grid lines with major ticks, minor ticks, or both.
+		:param linewidth: Line width for the grid.
+		:param linestyle: Matplotlib line style string such as ``"--"`` or ``":"``.
+		:param axis: Select ``"x"``, ``"y"``, or ``"both"`` axes for the grid.
+		:param ax: Axes to update; defaults to the primary axes.
+		:return: The axes with the applied grid styling.
+		:raises ValueError: If ``axis`` is not one of ``"x"``, ``"y"``, or ``"both"``.
+		"""
 
 		if axis not in {"x", "y", "both"}:
 			raise ValueError(f"axis must be 'x', 'y', or 'both'; got '{axis}'.")
@@ -47,7 +59,20 @@ class Decor(BasePlot):
 			exclude_labels: Optional[Sequence[str]] = None,
 			ax: Optional["Axes"] = None,
 	) -> Optional["Axes"]:
-		"""Display a legend with additional formatting controls."""
+		"""
+		Display a legend with additional formatting controls.
+
+		:param position: Legend location key or explicit axes-relative coordinates.
+		:param alpha: Transparency of the legend background.
+		:param fontsize: Size of the legend text.
+		:param fontcolor: Color that is applied to each label.
+		:param order: Optional reordering indices for legend entries.
+		:param exclude_labels: Iterable of labels to omit from the legend.
+		:param ax: Axes to query for handles.
+			Defaults to the primary axes.
+		:return: The axes when a legend is created, otherwise ``None`` if no
+			handles are available or all entries were filtered out.
+		"""
 
 		axes = self._axes_or_default(ax)
 		handles, labels = axes.get_legend_handles_labels()
@@ -80,7 +105,21 @@ class Decor(BasePlot):
 			va: str = "center",
 			ax: Optional["Axes"] = None,
 	) -> "Axes":
-		"""Insert arbitrary text in axes-relative coordinates."""
+		"""
+		Insert arbitrary text in axes-relative coordinates.
+
+		:param text: String rendered inside the axes.
+		:param position: Named location or explicit ``(x,y)`` pair in axes coordinates.
+		:param fontcolor: Color of the text.
+		:param fontsize: Text size in points.
+		:param style: Case-insensitive keywords such as ``"bold"`` or ``"italic"`` to
+			adjust style.
+		:param ha: Horizontal alignment keyword passed to Matplotlib.
+		:param va: Vertical alignment keyword passed to Matplotlib.
+		:param ax: Axes receiving the text.
+			Defaults to the primary axes.
+		:return: The axes containing the annotation.
+		"""
 
 		axes = self._axes_or_default(ax)
 		fontdict = {'fontsize': fontsize, 'color': fontcolor}

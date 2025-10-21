@@ -25,7 +25,19 @@ class Drawing(BasePlot):
 			alpha: float = 1.0,
 			ax: Optional["Axes"] = None
 	) -> "Axes":
-		"""Add a horizontal line."""
+		"""
+		Add a horizontal line across the axes.
+
+		:param y: Y coordinate where the line should be drawn.
+		:param color: Color styling parameter.
+		:param linewidth: Line width styling parameter.
+		:param linestyle: Line style styling parameter.
+		:param label: Optional line label.
+		:param alpha: Opacity of the line.
+		:param ax: Axes to draw on.
+			Defaults to the primary axes.
+		:return: The axes that contain the new line.
+		"""
 
 		axes = self._axes_or_default(ax)
 		axes.axhline(y=y, color=color, linewidth=linewidth, linestyle=linestyle, label=label, alpha=alpha)
@@ -42,7 +54,19 @@ class Drawing(BasePlot):
 			alpha: float = 1.0,
 			ax: Optional["Axes"] = None
 	) -> "Axes":
-		"""Add a vertical line."""
+		"""
+		Add a vertical line across the axes.
+
+		:param x: X coordinate for the line.
+		:param color: Color styling parameter.
+		:param linewidth: Line width styling parameter.
+		:param linestyle: Line style styling parameter.
+		:param label: Optional line label.
+		:param alpha: Opacity of the line.
+		:param ax: Axes to draw on.
+			Defaults to the primary axes.
+		:return: The axes that contain the new line.
+		"""
 
 		axes = self._axes_or_default(ax)
 		axes.axvline(x=x, color=color, linewidth=linewidth, linestyle=linestyle, label=label, alpha=alpha)
@@ -59,7 +83,23 @@ class Drawing(BasePlot):
 			linewidth: float = 2.0,
 			ax: Optional["Axes"] = None
 	) -> "Axes":
-		"""Plot error bars representing a standard deviation envelope."""
+		"""
+		Plot error bars representing a standard deviation envelope.
+
+		:param x: X coordinates for the error bars.
+		:param y: Y coordinates for the error bars.
+		:param yerr: Symmetric deviations for each point; forwarded to
+			:func:`matplotlib.axes.Axes.errorbar`.
+		:param color: Base color of the error bars.
+		:param alpha: Opacity of the error bars.
+		:param linewidth: Thickness of the error lines.
+		:param ax: Axes to draw on. Defaults to the primary axes.
+		:return: The axes that contain the error bars.
+		:raises ValueError: If the input sequences differ in length.
+		"""
+		if not (len(x) == len(y) == len(yerr)):
+			raise ValueError(f"x, y, and yerr must share identical lengths: "
+			                 f"x={len(x)}, y={len(y)}, yerr={len(yerr)}")
 
 		axes = self._axes_or_default(ax)
 		axes.errorbar(
@@ -78,7 +118,14 @@ class Drawing(BasePlot):
 		return axes
 
 	def plot_1d(self, data: Sequence[float], *, ax: Optional["Axes"] = None) -> "Axes":
-		"""Plot a simple 1D series against its index."""
+		"""
+		Plot a simple 1D series against its index.
+
+		:param data: Iterable of numeric values.
+		:param ax: Axes to draw on.
+			Defaults to the primary axes.
+		:return: The axes that contain the line plot.
+		"""
 
 		axes = self._axes_or_default(ax)
 		axes.plot(data)
@@ -105,7 +152,32 @@ class Drawing(BasePlot):
 			edgecolor: Optional[str] = None,
 			zorder: Optional[int] = None
 	) -> "Axes":
-		"""Render diverse 2D visualisations (line, scatter, moving average, histogram, bar)."""
+		"""
+		Render diverse 2D visualizations (line, scatter, moving average, histogram, bar).
+
+		:param x: X-coordinates of the observations.
+		:param y: Y-coordinates of the observations.
+			Must be provided for all built-in plot types.
+		:param plot_type: One of ``"line"``, ``"scatter"``, ``"moving_average"``, ``"histogram"``, or ``"bar"``.
+		:param ax: Axes to draw on.
+			Defaults to the primary axes.
+		:param color: Color of the data visualization.
+		:param alpha: Opacity of the data visualization.
+		:param label: Label for the legend.
+		:param linewidth: Line width of the data visualization.
+			Applies to ``"line"`` and ``"moving_average"`` plot types.
+		:param linestyle: Line style of the data visualization.
+			Applies to ``"line"`` and ``"moving_average"`` plot types.
+		:param markersize: Size of the markers in ``"scatter"`` plots.
+		:param markertype: Type of the markers in ``"scatter"`` plots.
+		:param ma_window: Size of the moving window used in the ``"moving_average"`` convolution.
+		:param ma_iterations: Iteration count for the ``"moving_average"`` convolution.
+		:param bar_width: Width of the bars in ``"bar"`` and ``"histogram"`` plots.
+		:param edgecolor: Edge color of the bars in ``"bar"`` and ``"histogram"`` plots.
+		:param zorder: Z-order of the visualization (rendering order).
+		:return: The axes that contain the visualization.
+		:raises ValueError: If required data is missing, or ``plot_type`` is unsupported.
+		"""
 
 		axes = self._axes_or_default(ax)
 		params: Dict[str, Union[float, str]] = {'alpha': alpha, 'zorder': zorder}
@@ -149,7 +221,19 @@ class Drawing(BasePlot):
 			*,
 			ax: Optional["Axes"] = None
 	) -> "Axes":
-		"""Create a 3D scatter plot (creates 3D axes if necessary)."""
+		"""
+		Create a 3D scatter plot (creates 3D axes if necessary).
+
+		:param x: X-coordinates of the observations.
+		:param y: Y-coordinates of the observations.
+		:param z: Z-coordinates of the observations.
+		:param ax: Existing 3D axes.
+			When ``None``, a new subplot is created.
+		:return: The 3D axes containing the scatter plot.
+		:raises ValueError: If the coordinate sequences differ in length.
+		"""
+		if not (len(x) == len(y) == len(z)):
+			raise ValueError(f"x, y, and z must share identical lengths: x={len(x)}, y={len(y)}, z={len(z)}")
 
 		axes = ax
 		if axes is None:
